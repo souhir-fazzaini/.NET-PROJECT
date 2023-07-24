@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="gestion_bibliothequeModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="auteur">
+    <Key>
+      <PropertyRef Name="id_auteur" />
+    </Key>
+    <Property Name="id_auteur" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="255" />
+    <Property Name="prenom" Type="varchar" MaxLength="255" />
+    <Property Name="date_naissance" Type="date" />
+    <Property Name="nationalite" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="domaine">
+    <Key>
+      <PropertyRef Name="id_dom" />
+    </Key>
+    <Property Name="id_dom" Type="int" Nullable="false" />
+    <Property Name="libellé" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="emprunter">
+    <Key>
+      <PropertyRef Name="id_emprunter" />
+    </Key>
+    <Property Name="id_emprunter" Type="int" Nullable="false" />
+    <Property Name="date_debut" Type="date" />
+    <Property Name="date_fin" Type="date" />
+    <Property Name="rendu" Type="int" />
+  </EntityType>
+  <EntityType Name="emprunteur">
+    <Key>
+      <PropertyRef Name="id_emprunteur" />
+    </Key>
+    <Property Name="id_emprunteur" Type="int" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="255" />
+    <Property Name="prenom" Type="varchar" MaxLength="255" />
+    <Property Name="date_naissance" Type="date" />
+  </EntityType>
+  <EntityType Name="livre">
+    <Key>
+      <PropertyRef Name="id_livre" />
+    </Key>
+    <Property Name="id_livre" Type="int" Nullable="false" />
+    <Property Name="titre" Type="varchar" MaxLength="255" />
+    <Property Name="auteur" Type="varchar" MaxLength="255" />
+    <Property Name="editeur" Type="varchar" MaxLength="255" />
+    <Property Name="annee_publication" Type="int" />
+    <Property Name="isbn" Type="varchar" MaxLength="255" />
+    <Property Name="nombre_pages" Type="int" />
+    <Property Name="prix" Type="decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityContainer Name="gestion_bibliothequeModel1StoreContainer">
+    <EntitySet Name="auteur" EntityType="Self.auteur" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="domaine" EntityType="Self.domaine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emprunter" EntityType="Self.emprunter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="emprunteur" EntityType="Self.emprunteur" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="livre" EntityType="Self.livre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

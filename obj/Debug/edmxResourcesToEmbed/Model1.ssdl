@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="gestion_bibliothequeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="abonnée">
+    <Key>
+      <PropertyRef Name="id_abonnée" />
+    </Key>
+    <Property Name="id_abonnée" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="nom" Type="varchar" MaxLength="255" />
+    <Property Name="prenom" Type="varchar" MaxLength="255" />
+    <Property Name="id_employé" Type="int" />
+    <Property Name="date_naissance" Type="date" />
+    <Property Name="nationnalité" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="ajouter">
+    <Key>
+      <PropertyRef Name="id_employé" />
+    </Key>
+    <Property Name="id_employé" Type="int" Nullable="false" />
+    <Property Name="is_livre" Type="int" Nullable="false" />
+    <Property Name="id_abonnée" Type="int" />
+    <Property Name="is_dom" Type="int" />
+  </EntityType>
+  <EntityType Name="domaine">
+    <Key>
+      <PropertyRef Name="id_dom" />
+    </Key>
+    <Property Name="id_dom" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="libellé" Type="varchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="employé">
+    <Key>
+      <PropertyRef Name="id_employé" />
+    </Key>
+    <Property Name="id_employé" Type="int" Nullable="false" />
+    <Property Name="nom" Type="nvarchar" MaxLength="50" />
+    <Property Name="prenom" Type="nvarchar" MaxLength="50" />
+    <Property Name="date_naissance" Type="datetime" />
+    <Property Name="nationnalité" Type="nvarchar" MaxLength="50" />
+    <Property Name="motdepasse" Type="nchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="livre">
+    <Key>
+      <PropertyRef Name="id_livre" />
+    </Key>
+    <Property Name="id_livre" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="titre" Type="varchar" MaxLength="255" />
+    <Property Name="auteur" Type="varchar" MaxLength="255" />
+    <Property Name="editeur" Type="varchar" MaxLength="255" />
+    <Property Name="annee_publication" Type="datetime" />
+    <Property Name="nombre_pages" Type="int" />
+    <Property Name="prix" Type="int" />
+    <Property Name="id_dom" Type="int" />
+    <Property Name="empruneter" Type="bit" />
+    <Property Name="id_abonnée" Type="int" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_ajouter_abonnée">
+    <End Role="abonnée" Type="Self.abonnée" Multiplicity="0..1" />
+    <End Role="ajouter" Type="Self.ajouter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="abonnée">
+        <PropertyRef Name="id_abonnée" />
+      </Principal>
+      <Dependent Role="ajouter">
+        <PropertyRef Name="id_abonnée" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ajouter_domaine">
+    <End Role="domaine" Type="Self.domaine" Multiplicity="0..1" />
+    <End Role="ajouter" Type="Self.ajouter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="domaine">
+        <PropertyRef Name="id_dom" />
+      </Principal>
+      <Dependent Role="ajouter">
+        <PropertyRef Name="is_dom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ajouter_employé1">
+    <End Role="employé" Type="Self.employé" Multiplicity="1" />
+    <End Role="ajouter" Type="Self.ajouter" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="employé">
+        <PropertyRef Name="id_employé" />
+      </Principal>
+      <Dependent Role="ajouter">
+        <PropertyRef Name="id_employé" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ajouter_livre1">
+    <End Role="livre" Type="Self.livre" Multiplicity="1" />
+    <End Role="ajouter" Type="Self.ajouter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="livre">
+        <PropertyRef Name="id_livre" />
+      </Principal>
+      <Dependent Role="ajouter">
+        <PropertyRef Name="is_livre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_livre_abonnée">
+    <End Role="abonnée" Type="Self.abonnée" Multiplicity="0..1" />
+    <End Role="livre" Type="Self.livre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="abonnée">
+        <PropertyRef Name="id_abonnée" />
+      </Principal>
+      <Dependent Role="livre">
+        <PropertyRef Name="id_abonnée" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_livre_domaine">
+    <End Role="domaine" Type="Self.domaine" Multiplicity="0..1" />
+    <End Role="livre" Type="Self.livre" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="domaine">
+        <PropertyRef Name="id_dom" />
+      </Principal>
+      <Dependent Role="livre">
+        <PropertyRef Name="id_dom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="gestion_bibliothequeModelStoreContainer">
+    <EntitySet Name="abonnée" EntityType="Self.abonnée" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ajouter" EntityType="Self.ajouter" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="domaine" EntityType="Self.domaine" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="employé" EntityType="Self.employé" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="livre" EntityType="Self.livre" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ajouter_abonnée" Association="Self.FK_ajouter_abonnée">
+      <End Role="abonnée" EntitySet="abonnée" />
+      <End Role="ajouter" EntitySet="ajouter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ajouter_domaine" Association="Self.FK_ajouter_domaine">
+      <End Role="domaine" EntitySet="domaine" />
+      <End Role="ajouter" EntitySet="ajouter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ajouter_employé1" Association="Self.FK_ajouter_employé1">
+      <End Role="employé" EntitySet="employé" />
+      <End Role="ajouter" EntitySet="ajouter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ajouter_livre1" Association="Self.FK_ajouter_livre1">
+      <End Role="livre" EntitySet="livre" />
+      <End Role="ajouter" EntitySet="ajouter" />
+    </AssociationSet>
+    <AssociationSet Name="FK_livre_abonnée" Association="Self.FK_livre_abonnée">
+      <End Role="abonnée" EntitySet="abonnée" />
+      <End Role="livre" EntitySet="livre" />
+    </AssociationSet>
+    <AssociationSet Name="FK_livre_domaine" Association="Self.FK_livre_domaine">
+      <End Role="domaine" EntitySet="domaine" />
+      <End Role="livre" EntitySet="livre" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
